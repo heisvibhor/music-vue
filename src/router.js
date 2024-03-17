@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import Login from '../views/Login.vue'
-import Signup from '../views/Signup.vue'
-import store from '@/store'
-import HomePage from '../user/HomePage.vue'
-import User from '../user/User.vue'
+import HomeView from './views/HomeView.vue'
+import Login from './views/Login.vue'
+import Signup from './views/Signup.vue'
+import store from './store'
+import HomePage from './user/HomePage.vue'
+import User from './user/User.vue'
 
 Vue.use(VueRouter)
 
@@ -31,12 +31,19 @@ const routes = [
       }
     },
     component: () =>
-      import("../views/AboutView.vue"),
+      import("./views/AboutView.vue"),
   },
   {
     path: "/",
     name: "user",
-    component: User,
+    component: HomePage,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.is_logged_in) {
+        next()
+      } else {
+        next({ name: 'home' })
+      }
+    },
     children: [
         {path: 'home', component: HomePage},
       ],

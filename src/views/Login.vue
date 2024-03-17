@@ -43,11 +43,9 @@ export default {
         }
     },
     methods: {
-        
         async submitForm() {
-            
             console.log(process.env.VUE_APP_API, this.cred)
-            // axios.defaults.baseURL = 'http://192.168.1.6:5001/api'
+            axios.defaults.baseURL = process.env.VUE_APP_API
             axios('/login', {
                 method: 'post',
                 data: this.cred,
@@ -78,4 +76,4 @@ export default {
         
     }
 }
-</script>
+</script>@/index

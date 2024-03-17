@@ -114,9 +114,7 @@ export default {
                 router.push({ name: 'login' })
             }).catch((error) => {
                 if (error.response.data) {
-
                     this.dangerToast(error.response.data.message, 'Error')
-
                 }
             });
         },
