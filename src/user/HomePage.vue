@@ -1,23 +1,32 @@
 <template>
-  <div class="home">
-    {{ hello }}
-    <Music :music="hello"></Music>
+  <div>
+    <div class="text-center">
+      <div class="container-fluid row">
+        <div class="col">
+          1 of 3
+        </div>
+        <div class="col-9">
+          <div class="d-flex flex-row" style="overflow-x: scroll;">
+            <div v-for="mc in top_rated">
+              <Music :song="mc"></Music>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import Music from '@/components/Music.vue'
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld,
     Music
   },
   data() {
     return {
-      hello: { name: "fhgjk" },
       albums: [],
       top_rated: [],
       top_views: [],
@@ -30,11 +39,11 @@ export default {
     const res = this.$api.get(this.$root, "/home")
     res.then((r) => {
       console.log(r)
-      this.albums= res.albums
-      this.top_rated= res.top_rated
-      this.top_views= res.top_views
-      this.recently_added= res.recently_added
-      this.playlists= res.playlists
+      this.albums = r.albums
+      this.top_rated = r.top_rated
+      this.top_views = r.top_views
+      this.recently_added = r.recently_added
+      this.playlists = r.playlists
     })
   }
 }

@@ -2,32 +2,6 @@ import axios from "axios";
 import Vue from "vue";
 import router from "./router";
 
-export const methods = {
-    api(url, method, data) {
-        console.log("hey")
-        console.log(this.$store.state.auth.token)
-        axios(url, {
-            method: method,
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": this.$store.state.auth.token,
-            }
-        }).then((response) => {
-            if (response.statusText == 'OK') {
-                return response.data
-            }
-        }).catch((error) => {
-            console.log(error);
-            const err = error.response.data.message
-            this.$root.$bvToast.toast(err, {
-                title: 'Error',
-                autoHideDelay: 5000,
-                variant: "danger",
-                solid: true
-            })
-        });
-    }
-}
 export const MyPlugin = {
     install(app, store, root) {
         const redToast = (root, message, title) => {
@@ -88,7 +62,39 @@ export const MyPlugin = {
                     })
                 })
             },
-        }
+
+            async mutate(root, method, url, data) {
+                const mid = axios(url, {
+                    method: method,
+                    data: data,
+                    headers: {
+                        "Authorization": store.state.auth.token,
+                    }
+                })
+
+                return new Promise((resolve, reject) => {
+                    mid.then(async (res) => {
+                        if (res.statusText == 'OK') {
+                            resolve(res.data)
+                            if (res.data.message) {
+                                greenToast(root, res.data.message, "SUCCESS")
+                            }
+                        } else {
+                            redToast(root, res.data.message, "OOPS")
+                        }
+                    }).catch(async (err) => {
+                        if (err.response.data.message == "Token has expired") {
+                            router.push({ path: "/login" })
+                            store.commit("logout")
+                        } else if (err.response.data.message) {
+                            redToast(root, err.response.data.message, "OOPS")
+                        }
+
+                        console.log(err)
+                    })
+                })
+            }
+        };
 
     },
 };

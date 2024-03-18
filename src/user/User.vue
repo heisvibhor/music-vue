@@ -10,5 +10,5 @@
   export default {
     name: 'HomeView',
   }
-  </script>
+  </script>w
   
