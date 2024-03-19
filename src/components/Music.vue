@@ -51,16 +51,6 @@ export default {
             return process.env.VUE_APP_API + '/image/' + this.song.song.creator.image
         }
     },
-    mounted() {
-        self.addEventListener('fetch', function (event) {
-            const newRequest = new Request(event.request, {
-                headers: { "Authorization": "Bearer XXX-my-token" },
-                mode: "cors"
-            });
-            return fetch(newRequest);
-        }
-        )
-    },
     methods: {
         push() {
             router.push({ path: '/listen/' + this.song.song.id })

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <router-view></router-view>
     <div class="text-center">
       <div class="container-fluid row">
         <div class="col">

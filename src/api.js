@@ -30,13 +30,14 @@ export const MyPlugin = {
             })
         }
         app.prototype.$api = {
-            async get(root, url, params) {
+            async get(root, url, params=undefined) {
                 let furl = url
                 if (params) {
                     furl += "?" + Object.keys(params).map(key => {
                         return `${key}=${encodeURIComponent(params[key])}`;
                     }).join('&');
                 }
+                
                 const mid = axios.get(furl, {
                     headers: {
                         "Authorization": store.state.auth.token,
@@ -45,19 +46,18 @@ export const MyPlugin = {
                 return new Promise((resolve, reject) => {
                     mid.then(async (res) => {
                         if (res.statusText == 'OK') {
-                            console.log("resolved")
                             resolve(res.data)
                         } else {
                             yellowToast(root, res.data.message, "OOPS")
                         }
                     }).catch(async (err) => {
-                        if (err.response.data.message == "Token has expired") {
+                        console.log(err)
+                        if (err.response.data && err.response.data.message == "Token has expired") {
                             router.push({ path: "/login" })
                             store.commit("logout")
-                        } else if (err.response.data.message) {
+                        } else if (err.response.data && err.response.data.message) {
                             yellowToast(root, err.response.data.message, "OOPS")
                         }
-
                         console.log(err)
                     })
                 })
