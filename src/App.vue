@@ -14,6 +14,9 @@
 </script>
 
 <style>
+.toast:not(.show) {
+   display: block;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

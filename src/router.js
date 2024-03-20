@@ -54,8 +54,8 @@ const routes = [
     component: Creator,
     beforeEnter: checkLogin,
     children: [
-      { path: 'home', component: CreatorHome },
-      { path: 'song/:id', component: Song },
+      { path: 'home', component: CreatorHome, name:"CreatorHome" },
+      { path: 'song/:id', component: Song, name:"song" },
     ],
   },
 ]

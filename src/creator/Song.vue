@@ -7,26 +7,26 @@
 
                 <div class="col-sm-4 border border-dark rounded py-2">
                     <div class="form-group mb-2">
-                        <label for="Title" class="ms-2 m-1 float-start">Song Title</label>
+                        <label for="Title" class="ml-2 m-1 float-left">Song Title</label>
                         <input type="Title" id="Title" class="form-control" placeholder="Enter Title"
                             v-model="song.title">
                     </div>
 
                     <div class="form-group mb-2">
-                        <label for="description" class="ms-2 m-1 float-start">Song Description</label>
+                        <label for="description" class="ml-2 m-1 float-left">Song Description</label>
                         <input type="description" id="description" class="form-control" placeholder="Enter Description"
                             v-model="song.description">
                     </div>
 
                     <div class="form-group">
-                        <label for="image" class="ms-2 m-1 text-start d-block">Cover Image</label>
-                        <img v-if="image" :src="imageUrl" height="170" width="170px"
-                            class="float-start d-block ms-2 m-1" style="object-fit: cover;">
+                        <label for="image" class="ml-2 m-1 text-left d-block">Cover Image</label>
+                        <img v-if="image" :src="imageUrl" height="170" width="170px" class="float-left d-block ml-2 m-1"
+                            style="object-fit: cover;">
                         <input type="file" @change="updatePhoto($event.target)" id="image" placeholder="Profile File"
                             accept="image/*">
                     </div>
                     <div class="form-group">
-                        <label class="ms-2 m-1 text-start d-block">Audio</label>
+                        <label class="ml-2 m-1 text-left d-block">Audio</label>
                         <audio controls v-if="audio" style="width: 300px;">
                             <source :src="audioUrl">
                         </audio>
@@ -34,7 +34,7 @@
                             accept="audio/*">
                     </div>
                     <div class="form-group mb-2">
-                        <label class="ms-2 m-1 float-start">Song Language</label>
+                        <label class="ml-2 m-1 float-left">Song Language</label>
                         <select class="form-select form-control" v-model="song.language">
                             <option v-for="lang in languages" :value="lang.name">
                                 {{ lang.name }}
@@ -42,7 +42,7 @@
                         </select>
                     </div>
                     <div class="form-group mb-2">
-                        <label class="ms-2 m-1 float-start">Genre</label>
+                        <label class="ml-2 m-1 float-left">Genre</label>
                         <select class="form-select form-control" v-model="song.genre">
                             <option v-for="gen in genres" :value="gen.name">
                                 {{ gen.name }}
@@ -50,18 +50,18 @@
                         </select>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary" v-on:click="getOtp()"
-                        :disabled="!song.email || !song.name || !song.language">Get OTP</button>
-                    
+                    <button type="submit" class="btn btn-primary" v-on:click="save()"
+                        :disabled="!song.title || !song.genre || !song.language || !(song.lyrics || song.audio)">Save</button>
+                    <button v-if="id" type="submit" class="ml-2 btn btn-danger" v-on:click="deleteSong()">Delete</button>
                 </div>
 
                 <div class="col-sm-4 border border-dark rounded px-1 py-2">
                     <div class="form-group">
-                        <label class="ms-2 m-1 text-start d-block">Lyrics</label>
-                        <textarea name="lyrics" placeholder="Enter lyrics" v-model="song.lyrics"
-                        class="form-control" style="white-space: pre-wrap;" :rows="rows">{{ song.lyrics }}</textarea>
+                        <label class="ml-2 m-1 text-start d-block">Lyrics</label>
+                        <textarea name="lyrics" placeholder="Enter lyrics" v-model="song.lyrics" class="form-control"
+                            style="white-space: pre-wrap;" :rows="rows">{{ song.lyrics }}</textarea>
                     </div>
-                    
+
                 </div>
                 <div class="col-sm">
                 </div>
@@ -72,10 +72,12 @@
 </template>
 
 <script>
+import router from '@/router'
 export default {
     name: 'Song',
     data() {
         return {
+
             id: undefined,
             song: {},
             image: null,
@@ -90,7 +92,14 @@ export default {
             this.id = this.$route.params.id
             this.fetch()
         }
-
+        const lan = this.$api.get(this.$root, "/language")
+        lan.then((r) => {
+            this.languages = r.languages
+        })
+        const gen = this.$api.get(this.$root, "/genre")
+        gen.then((r) => {
+            this.genres = r.genres
+        })
     },
 
     computed: {
@@ -100,13 +109,13 @@ export default {
         audioUrl() {
             return process.env.VUE_APP_API + '/audio/' + this.audio;
         },
-        rows(){
+        rows() {
             let h = 20
-            if (this.audio){
-                h+=5
-            } 
-            if (this.image){
-                h+=5
+            if (this.audio) {
+                h += 5
+            }
+            if (this.image) {
+                h += 5
             }
             return h
         }
@@ -131,14 +140,41 @@ export default {
                 this.song.image = null
                 this.song.audio = null
             })
-            const lan = this.$api.get(this.$root, "/language")
-            lan.then((r) => {
-                this.languages = r.languages
-            })
-            const gen = this.$api.get(this.$root, "/genre")
-            gen.then((r) => {
-                this.genres = r.genres
-            })
+        },
+        save() {
+            console.log(this.song)
+            if (this.id) {
+                this.$api.mutate(this.$root, 'put', '/song/' + this.id, this.song).then(
+                    (r) => {
+                        this.song = r.song
+                        this.image = r.song.image
+                        this.audio = r.song.audio
+                        this.song.image = null
+                        this.song.audio = null
+                    }
+                )
+            } else {
+                this.$api.mutate(this.$root, 'post', '/song', this.song).then(
+                    (r) => {
+                        this.song = r.song
+                        this.image = r.song.image
+                        this.audio = r.song.audio
+                        this.song.image = null
+                        this.song.audio = null
+                        router.push({ name: 'song', params: { id: this.song.id } })
+                    }
+                )
+            }
+        },
+        deleteSong() {
+            let text = "Are You Sure you want to delete";
+            if (confirm(text) == true) {
+                this.$api.mutate(this.$root, 'delete', '/song/' + this.id, {}).then(
+                    (r) => {
+                        router.push({ name: 'CreatorHome' })
+                    }
+                )
+            }
         }
     }
 }

@@ -69,6 +69,7 @@ export const MyPlugin = {
                     data: data,
                     headers: {
                         "Authorization": store.state.auth.token,
+                        "Content-Type": "multipart/form-data"
                     }
                 })
 
@@ -83,10 +84,10 @@ export const MyPlugin = {
                             redToast(root, res.data.message, "OOPS")
                         }
                     }).catch(async (err) => {
-                        if (err.response.data.message == "Token has expired") {
+                        if (err.response && err.response.data.message == "Token has expired") {
                             router.push({ path: "/login" })
                             store.commit("logout")
-                        } else if (err.response.data.message) {
+                        } else if (err.response && err.response.data.message) {
                             redToast(root, err.response.data.message, "OOPS")
                         }
 
