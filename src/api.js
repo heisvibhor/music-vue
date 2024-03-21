@@ -35,7 +35,7 @@ export const MyPlugin = {
                 if (params) {
                     furl += "?" + Object.keys(params).map(key => {
                         return `${key}=${encodeURIComponent(params[key])}`;
-                    }).join('&');
+                    }).join("&");
                 }
                 
                 const mid = axios.get(furl, {
@@ -52,10 +52,10 @@ export const MyPlugin = {
                         }
                     }).catch(async (err) => {
                         console.log(err)
-                        if (err.response.data && err.response.data.message == "Token has expired") {
+                        if (err.response && err.response.data && err.response.data.message == "Token has expired") {
                             router.push({ path: "/login" })
                             store.commit("logout")
-                        } else if (err.response.data && err.response.data.message) {
+                        } else if (err.response && err.response.data && err.response.data.message) {
                             yellowToast(root, err.response.data.message, "OOPS")
                         }
                         console.log(err)

@@ -8,13 +8,13 @@
                 <div class="col-sm-4 border border-dark rounded py-2">
                     <div class="form-group mb-2">
                         <label for="Title" class="ml-2 m-1 float-left">Song Title</label>
-                        <input type="Title" id="Title" class="form-control" placeholder="Enter Title"
+                        <input  id="Title" class="form-control" placeholder="Enter Title"
                             v-model="song.title">
                     </div>
 
                     <div class="form-group mb-2">
                         <label for="description" class="ml-2 m-1 float-left">Song Description</label>
-                        <input type="description" id="description" class="form-control" placeholder="Enter Description"
+                        <input id="description" class="form-control" placeholder="Enter Description"
                             v-model="song.description">
                     </div>
 
@@ -22,7 +22,7 @@
                         <label for="image" class="ml-2 m-1 text-left d-block">Cover Image</label>
                         <img v-if="image" :src="imageUrl" height="170" width="170px" class="float-left d-block ml-2 m-1"
                             style="object-fit: cover;">
-                        <input type="file" @change="updatePhoto($event.target)" id="image" placeholder="Profile File"
+                        <input type="file" @change="updatePhoto($event.target)" id="image" placeholder="Audio"
                             accept="image/*">
                     </div>
                     <div class="form-group">
@@ -30,7 +30,7 @@
                         <audio controls v-if="audio" style="width: 300px;">
                             <source :src="audioUrl">
                         </audio>
-                        <input type="file" @change="updateAudio($event.target)" id="image" placeholder="Profile File"
+                        <input type="file" @change="updateAudio($event.target)" id="image" placeholder="Cover Image"
                             accept="audio/*">
                     </div>
                     <div class="form-group mb-2">
