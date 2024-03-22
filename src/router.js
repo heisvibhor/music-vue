@@ -10,6 +10,7 @@ import Song from './creator/Song.vue'
 import Creator from './creator/Creator.vue'
 import CreatorHome from './creator/Home.vue'
 import Playlist from './user/Playlist.vue'
+import Listen from './user/Listen.vue'
 
 Vue.use(VueRouter)
 
@@ -47,6 +48,7 @@ const routes = [
     children: [
       { path: 'home', component: HomePage },
       { path: 'playlist/:id', component: Playlist, name: 'playlist' },
+      { path: 'listen/:id', component: Listen, name: "listen" },
     ],
   },
   {

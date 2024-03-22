@@ -1,15 +1,56 @@
 <template>
     <div class="container">
-        <div class="play container" v-if="(tab == 'play' && id)">
+        <div class="play row" v-if="(tab == 'play' && id)">
             <div class="col-sm">
+                <div class="border border-1 p-1">
+                    <table class="w-100 m-2">
+                        <tr>
+                            <td style="width:25%">
+                                <img :src="imageUrl" height="80px" width="80px" style="object-fit: cover;">
+                            </td>
+                            <td class="p-1" style="height:1px">
+                                <h5 class="h-50 text-left">
+                                    {{ playlist.title }}
+                                </h5>
+                                <div class="h-50 text-left">
+                                    {{ playlist.description }}
+                                </div>
+                            </td>
+                            <td style="width:15%">
+                                <div v-on:click="tab = 'edit'">
+                                    <b-avatar icon="pencil" variant="info" size="2rem"></b-avatar>
+                                </div>
+                            </td>
+                            
+                        </tr>
+                    </table>
+                </div>
+                <div class="border border-1 p-1">
+                    <table class="w-100 m-2">
+                        <tr>
+                            <td class="p-1" style="height:1px">
+                                <h5 class="h-50 text-left">
+                                    Play Next Song
+                                </h5>
+                            </td>
+                            <td style="width:15%">
+                                <div v-on:click="playRandom">
+                                    <b-avatar icon="collection-play" variant="info" size="2rem"></b-avatar>
+                                </div>
+                            </td>
+                            <td style="width:15%">
+                                <div v-on:click="playNext">
+                                    <b-avatar icon="play" variant="info" size="2rem"></b-avatar>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
                 <div v-for="mc in playlist_songs">
-                    <MusicSmall :song="mc" ></MusicSmall>
+                    <MusicSmall :song="mc" :playFunction="play.bind({}, mc.id)"></MusicSmall>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <button v-if="current_song_id" class="ml-2 btn btn-danger"
-                    v-on:click="deleteSong(current_song_id)">Delete
-                    Song</button>
+            <div class="col-sm-8">
                 <Listen v-if="current_song_id" :id="current_song_id"></Listen>
                 <span v-if="!playlist_songs.length">
                     Add Songs to Listen
@@ -21,23 +62,23 @@
             <div class="col-sm">
                 <div class="border border-1 p-1">
                     <table class="w-100 m-2">
-                    <tr>
-                        <td style="width:25%">
-                            <img :src="imageUrl" height="80px" width="80px" style="object-fit: cover;">
-                        </td>
-                        <td class="p-1" style="height:1px">
-                            <h5 class="h-50 text-left">
-                                {{ playlist.title }}
-                            </h5>
-                            <div class="h-50 text-left">
-                                {{ playlist.description }}
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <button class="btn btn-primary" v-on:click="save()" :disabled="!playlist.title">Save</button>
-                <button v-if="id" class="ml-2 btn btn-warning" v-on:click="deletePlaylist()">Close Edits</button>
-                <button v-if="id" class="ml-2 btn btn-danger" v-on:click="deletePlaylist()">Delete</button>
+                        <tr>
+                            <td style="width:25%">
+                                <img :src="imageUrl" height="80px" width="80px" style="object-fit: cover;">
+                            </td>
+                            <td class="p-1" style="height:1px">
+                                <h5 class="h-50 text-left">
+                                    {{ playlist.title }}
+                                </h5>
+                                <div class="h-50 text-left">
+                                    {{ playlist.description }}
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <button class="btn btn-primary" v-on:click="save()" :disabled="!playlist.title">Save</button>
+                    <button v-if="id" class="ml-2 btn btn-warning" v-on:click="tab = 'play'">Close Edits</button>
+                    <button v-if="id" class="ml-2 btn btn-danger" v-on:click="deletePlaylist()">Delete</button>
                 </div>
                 <div v-if="id" class="mt-2" style="height:90vh; overflow-y: scroll">
                     <div v-for="(mc, index) in playlist_songs">
@@ -121,11 +162,14 @@
 import router from '@/router'
 import MusicSmall from '@/components/MusicSmall.vue'
 import MusicMedium from '@/components/MusicMedium.vue'
+import Listen from '@/components/Listen.vue'
+
 export default {
     name: 'Song',
     components: {
         MusicSmall,
-        MusicMedium
+        MusicMedium,
+        Listen
     },
     data() {
         return {
@@ -138,7 +182,9 @@ export default {
             current_song_id: null,
             languages: [],
             genres: [],
-            songs: []
+            songs: [],
+            next_song: {},
+            current_song_index: 0,
         }
     },
     async mounted() {
@@ -172,8 +218,24 @@ export default {
                 this.image = r.playlist.image
                 this.playlist = r.playlist
                 this.playlist.image = null
-                console.log(this.playlist_songs)
+                if (this.playlist_songs.length) {
+                    this.tab = 'play'
+                    this.play(this.playlist_songs[0].id)
+                }
             })
+        },
+        playRandom() {
+            const i = Math.floor(Math.random()*this.playlist_songs.length)%this.playlist_songs.length
+            this.current_song_index = i
+            this.play(this.playlist_songs[i].id)
+        },
+        playNext(){
+            this.current_song_index += 1
+            this.current_song_index = this.current_song_index%this.playlist_songs.length
+            this.play(this.playlist_songs[this.current_song_index].id)
+        },
+        play(song_id) {
+            this.current_song_id = song_id
         },
         addSong(song_id, song) {
             this.$api.mutate(this.$root, 'post', `/playlist/${this.id}/${song_id}`, {})

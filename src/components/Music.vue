@@ -1,35 +1,32 @@
 <template>
-    <div class="container">
-        <div class="m-auto" style="width: 160px; height: 160px;" v-on:click="push">
-            <img :src="imagePath" height="100%" width="100%" style="object-fit: contain;">
+    <div class="container border border-1 pt-1">
+        <div class="m-auto" v-on:click="push">
+            <img :src="imagePath" style="width: 160px; height: 160px; object-fit: contain;">
         </div>
-        <div class="fs-6 d-flex justify-content-center gap-2">
-            <div class="p-1 px-2 mx-1" data-toggle="tooltip" title="Genre" data-placement="bottom"
-                style="background-color: rgb(240, 226, 146); border-radius: 8px;">{{ song.song.genre }}
+        <div class="">
+            <b-badge variant="warning" class="ml-1">{{ song.song.genre }}</b-badge>
+            <b-badge variant="info" class="ml-1">{{ song.song.language }}</b-badge>
+            <b-badge variant="success" class="ml-1">{{ song.song.views }} Views</b-badge>
+            <b-badge class="ml-1">{{ handleNull(song.rating) }} Star</b-badge>
+            <b-badge variant="danger" class="ml-1">{{ handleNull(song.likes) }} Likes</b-badge>
+            <div class="mt-3" style="width: 200px;">
+                <table class="mb-2">
+                    <tr>
+                        <td>
+                            <img :src="creatorPath" height="30px" width="30px"
+                                style="object-fit: cover; border-radius: 30px;">
+                        </td>
+                        <td class="px-1">
+                            {{ song.song.creator.artist }}
+                        </td>
+                        <td colspan="2"></td>
+                    </tr>
 
+                </table>
+                <h5>{{ song.song.title }}</h5>
             </div>
-        </div>
-        <div class="p-1 px-2" data-toggle="tooltip" title="Language" data-placement="bottom"
-            style="background-color: rgb(180, 240, 146); border-radius: 8px;">{{ song.song.language }}</div>
-        <div class="p-1 px-2 mx-1" data-toggle="tooltip" title="Views" data-placement="bottom"
-            style="background-color: #92f0e3; border-radius: 8px;">{{ song.song.views }} Views</div>
-
-
-        <div class="mt-3" style="width: 200px;">
-            <table>
-                <tr>
-                    <td>
-                        <img :src="creatorPath" height="30px" width="30px"
-                            style="object-fit: cover; border-radius: 30px;">
-                    </td>
-                    <td class="px-1">
-                        <h5>{{ song.song.title }}</h5>
-                    </td>
-                </tr>
-            </table>
 
         </div>
-
     </div>
 </template>
 
@@ -49,13 +46,18 @@ export default {
         },
         creatorPath() {
             return process.env.VUE_APP_API + '/image/' + this.song.song.creator.image
-        }
+        },
     },
     methods: {
         push() {
             router.push({ path: '/listen/' + this.song.song.id })
         },
-
+        handleNull(val){
+            if (!val){
+                return 0
+            } 
+            return val
+        }
     }
 }
 

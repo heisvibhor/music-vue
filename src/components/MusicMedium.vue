@@ -16,7 +16,7 @@
                     </div>
                 </td>
                 <td style="width:15%">
-                    <div @click="addFunction()" >
+                    <div @click="addFunction()">
                         <b-avatar icon="plus" variant="primary"></b-avatar>
                     </div>
                 </td>
