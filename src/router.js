@@ -49,6 +49,10 @@ const routes = [
       { path: 'home', component: HomePage },
       { path: 'playlist/:id', component: Playlist, name: 'playlist' },
       { path: 'listen/:id', component: Listen, name: "listen" },
+      {
+        path: 'album/:id', component: () =>
+          import("./user/Album.vue"), name: "albumView"
+      },
     ],
   },
   {
@@ -59,6 +63,10 @@ const routes = [
     children: [
       { path: 'home', component: CreatorHome, name: "CreatorHome" },
       { path: 'song/:id', component: Song, name: "song" },
+      {
+        path: 'album/:id', component: () =>
+          import("./creator/Album.vue"), name: "albumEdit"
+      },
     ],
   },
 ]

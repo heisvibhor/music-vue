@@ -55,17 +55,6 @@ const moduleSign = {
   }
 }
 
-const api = {
-
-}
-
-
-
-const refreshToken = () => {
-
-}
-
-
 export default new Vuex.Store({
   state: {
     count: 1,

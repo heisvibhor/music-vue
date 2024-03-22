@@ -21,7 +21,7 @@
                                     <b-avatar icon="pencil" variant="info" size="2rem"></b-avatar>
                                 </div>
                             </td>
-                            
+
                         </tr>
                     </table>
                 </div>
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class="edit row" v-else-if="tab == 'edit'">
-            <div class="col-sm">
+            <div class="col-sm" v-if="id">
                 <div class="border border-1 p-1">
                     <table class="w-100 m-2">
                         <tr>
@@ -149,7 +149,7 @@
                         accept="image/*">
                 </div>
                 <button type="submit" class="btn btn-primary" v-on:click="save()"
-                    :disabled="!playlist.title">Save</button>
+                    :disabled="!playlist.title || !playlist.description">Save</button>
             </div>
             <div v-if="!id" class="col-sm">
 
@@ -225,13 +225,13 @@ export default {
             })
         },
         playRandom() {
-            const i = Math.floor(Math.random()*this.playlist_songs.length)%this.playlist_songs.length
+            const i = Math.floor(Math.random() * this.playlist_songs.length) % this.playlist_songs.length
             this.current_song_index = i
             this.play(this.playlist_songs[i].id)
         },
-        playNext(){
+        playNext() {
             this.current_song_index += 1
-            this.current_song_index = this.current_song_index%this.playlist_songs.length
+            this.current_song_index = this.current_song_index % this.playlist_songs.length
             this.play(this.playlist_songs[this.current_song_index].id)
         },
         play(song_id) {
