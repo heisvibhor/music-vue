@@ -171,6 +171,7 @@ export default {
         MusicMedium,
         Listen
     },
+    inject: ['get', 'mutate', 'redToast', 'yellowToast', 'greenToast'],
     data() {
         return {
             tab: 'edit',
@@ -192,11 +193,11 @@ export default {
             this.id = this.$route.params.id
             this.fetch()
         }
-        const lan = this.$api.get(this.$root, "/language")
+        const lan = this.get("/language")
         lan.then((r) => {
             this.languages = [{ name: 'All' }, ...r.languages]
         })
-        const gen = this.$api.get(this.$root, "/genre")
+        const gen = this.get("/genre")
         gen.then((r) => {
             this.genres = [{ name: 'All' }, ...r.genres]
         })
@@ -212,7 +213,7 @@ export default {
             this.playlist.image = files.files[0]
         },
         fetch() {
-            const res = this.$api.get(this.$root, `/playlist/${this.id}`, {})
+            const res = this.get(`/playlist/${this.id}`, {})
             res.then((r) => {
                 this.playlist_songs = r.playlist.songs
                 this.image = r.playlist.image
@@ -238,11 +239,11 @@ export default {
             this.current_song_id = song_id
         },
         addSong(song_id, song) {
-            this.$api.mutate(this.$root, 'post', `/playlist/${this.id}/${song_id}`, {})
+            this.mutate('post', `/playlist/${this.id}/${song_id}`, {})
             this.playlist_songs.push(song)
         },
         deleteSong(song_id, index) {
-            this.$api.mutate(this.$root, 'delete', `/playlist/${this.id}/${song_id}`, {})
+            this.mutate('delete', `/playlist/${this.id}/${song_id}`, {})
             this.playlist_songs.splice(index, 1)
         },
         searchSong() {
@@ -252,7 +253,7 @@ export default {
             if (this.song_search.genre == 'All') {
                 this.song_search.genre = ''
             }
-            this.$api.get(this.$root, "/song", this.song_search).then(
+            this.get("/song", this.song_search).then(
                 (r) => {
                     this.songs = r.data
                 }
@@ -260,7 +261,7 @@ export default {
         },
         save() {
             if (this.id) {
-                this.$api.mutate(this.$root, 'put', '/playlist/' + this.id, this.playlist).then(
+                this.mutate('put', '/playlist/' + this.id, this.playlist).then(
                     (r) => {
                         this.playlist_songs = r.playlist.songs
                         this.image = r.playlist.image
@@ -269,7 +270,7 @@ export default {
                     }
                 )
             } else {
-                this.$api.mutate(this.$root, 'post', '/playlist', this.playlist).then(
+                this.mutate('post', '/playlist', this.playlist).then(
                     (r) => {
                         this.playlist_songs = r.playlist.songs
                         this.playlist = r.playlist
@@ -284,7 +285,7 @@ export default {
         deletePlaylist() {
             let text = "Are You Sure you want to delete";
             if (confirm(text) == true) {
-                this.$api.mutate(this.$root, 'delete', '/playlist/' + this.id, {}).then(
+                this.mutate('delete', '/playlist/' + this.id, {}).then(
                     (r) => {
                         router.push({ name: 'home' })
                     }

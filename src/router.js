@@ -53,6 +53,14 @@ const routes = [
         path: 'album/:id', component: () =>
           import("./user/Album.vue"), name: "albumView"
       },
+      {
+        path: 'profile', component: () =>
+          import("./user/Profile.vue"), name: "profile"
+      },
+      {
+        path: 'creatorprofile/:type', component: () =>
+          import("./user/Creator.vue"), name: "creatorProfile"
+      },
     ],
   },
   {

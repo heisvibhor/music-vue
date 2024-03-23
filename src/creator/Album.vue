@@ -89,7 +89,8 @@
                     <input type="file" @change="updatePhoto($event.target)" id="image" placeholder="Cover Image"
                         accept="image/*">
                 </div>
-                <button type="submit" class="btn btn-primary" v-on:click="save()" :disabled="!album.title || !album.description">Save</button>
+                <button type="submit" class="btn btn-primary" v-on:click="save()"
+                    :disabled="!album.title || !album.description">Save</button>
             </div>
             <div v-if="!id" class="col-sm">
 
@@ -111,6 +112,7 @@ export default {
         MusicMedium,
         Listen
     },
+    inject: ['get', 'mutate', 'redToast', 'yellowToast', 'greenToast'],
     data() {
         return {
             id: undefined,
@@ -124,16 +126,15 @@ export default {
         }
     },
     async mounted() {
-        console.log(this.$store.state.auth.user_id)
         if (this.$route.params.id && this.$route.params.id != "new") {
             this.id = this.$route.params.id
             this.fetch()
         }
-        const lan = this.$api.get(this.$root, "/language")
+        const lan = this.get("/language")
         lan.then((r) => {
             this.languages = [{ name: 'All' }, ...r.languages]
         })
-        const gen = this.$api.get(this.$root, "/genre")
+        const gen = this.get("/genre")
         gen.then((r) => {
             this.genres = [{ name: 'All' }, ...r.genres]
         })
@@ -149,7 +150,7 @@ export default {
             this.album.image = files.files[0]
         },
         fetch() {
-            const res = this.$api.get(this.$root, `/album`, {album_id: this.id})
+            const res = this.get(`/album`, { album_id: this.id })
             res.then((r) => {
                 this.album_songs = r.album.songs
                 this.image = r.album.image
@@ -159,11 +160,11 @@ export default {
             })
         },
         addSong(song_id, song) {
-            this.$api.mutate(this.$root, 'post', `/album/${this.id}/${song_id}`, {})
+            this.mutate('post', `/album/${this.id}/${song_id}`, {})
             this.album_songs.push(song)
         },
         deleteSong(song_id, index) {
-            this.$api.mutate(this.$root, 'delete', `/album/${this.id}/${song_id}`, {})
+            this.mutate('delete', `/album/${this.id}/${song_id}`, {})
             this.album_songs.splice(index, 1)
         },
         searchSong() {
@@ -173,7 +174,7 @@ export default {
             if (this.song_search.genre == 'All') {
                 this.song_search.genre = ''
             }
-            this.$api.get(this.$root, "/song", this.song_search).then(
+            this.get("/song", this.song_search).then(
                 (r) => {
                     this.songs = r.data
                 }
@@ -181,7 +182,7 @@ export default {
         },
         save() {
             if (this.id) {
-                this.$api.mutate(this.$root, 'put', '/album/' + this.id, this.album).then(
+                this.mutate('put', '/album/' + this.id, this.album).then(
                     (r) => {
                         this.album_songs = r.album.songs
                         this.image = r.album.image
@@ -191,7 +192,7 @@ export default {
                     }
                 )
             } else {
-                this.$api.mutate(this.$root, 'post', '/album', this.album).then(
+                this.mutate('post', '/album', this.album).then(
                     (r) => {
                         this.album_songs = r.album.songs
                         this.album = r.album
@@ -207,7 +208,7 @@ export default {
         deleteAlbum() {
             let text = "Are You Sure you want to delete";
             if (confirm(text) == true) {
-                this.$api.mutate(this.$root, 'delete', '/album/' + this.id, {}).then(
+                this.mutate('delete', '/album/' + this.id, {}).then(
                     (r) => {
                         router.push({ name: 'CreatorHome' })
                     }

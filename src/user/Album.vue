@@ -71,6 +71,7 @@ export default {
         MusicMedium,
         Listen
     },
+    inject: ['get', 'mutate', 'redToast', 'yellowToast', 'greenToast'],
     data() {
         return {
             id: undefined,
@@ -95,7 +96,7 @@ export default {
     },
     methods:{
         fetch() {
-            const res = this.$api.get(this.$root, `/album`, {album_id : this.id})
+            const res = this.get(`/album`, {album_id : this.id})
             res.then((r) => {
                 this.album_songs = r.album.songs
                 this.album = r.album

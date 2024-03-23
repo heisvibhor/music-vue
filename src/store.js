@@ -10,7 +10,8 @@ const moduleSign = {
       token: localStorage.getItem('token'),
       user_type: localStorage.getItem('user_type'),
       user_id: localStorage.getItem('user_id'),
-      email: localStorage.getItem('email')
+      email: localStorage.getItem('email'),
+      disabled: sessionStorage.getItem('disabled'),
     }
   },
   mutations: {
@@ -18,7 +19,7 @@ const moduleSign = {
       state.count += payload.amount
     },
 
-    refreshToken(state, token){
+    refreshToken(state, token) {
       state.token = 'Bearer ' + token
     },
 
@@ -43,8 +44,12 @@ const moduleSign = {
       state.user_type = ''
       state.user_id = ''
       state.email = ''
-      
-    }
+
+    },
+    disable(state, isDisabled) {
+      state.disabled = isDisabled
+      sessionStorage.setItem('disabled', isDisabled)
+    },
   },
   getters: {
     is_logged_in(state) {
@@ -56,76 +61,7 @@ const moduleSign = {
 }
 
 export default new Vuex.Store({
-  state: {
-    count: 1,
-
-  },
-  mutations: {
-    refreshToken(state) {
-      axios('/refresh_token', {
-        method: 'post',
-        headers: {
-          "Authorization": this.state.auth.token,
-        }
-      }).then((response) => {
-        if (response.statusText == 'OK') {
-          this.state.commit('refreshToken', response.data.token)
-        }
-        else {
-          console.log(response)
-          this.state.commit('logout')
-        }
-      }).catch((error) => {
-        console.log(error)
-        this.state.commit('logout')
-      });
-    },
-    api(state, url, method, data) {
-      console.log("hey")
-      console.log(this.state.auth.token)
-      axios(url, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": this.state.auth.token,
-        }
-      }).then((response) => {
-        if (response.statusText == 'OK') {
-          return response.data
-        }
-      }).catch((error) => {
-        console.log(error);
-        const err = error.response.data.message
-        this.$root.$bvToast.toast(err, {
-          title: 'Error',
-          autoHideDelay: 5000,
-          variant: "danger",
-          solid: true
-        })
-      });
-    },
-    get(state, url, params) {
-      if (params) {
-        const searchParams = new URLSearchParams(data)
-        url += searchParams.toString()
-      }
-      axios.get(url, {
-        headers: {
-          "Authorization": this.state.auth.token,
-        }
-      }).then((res) => {
-        if (res.statusText == 'OK') {
-          return res.data
-        } else if (res.data.message == "Token has expired") {
-
-        } else {
-          yellowToast(res.data.message, "OOPS")
-        }
-      }).catch(err => console.log(err))
-    }
-  },
-  actions: {
-  },
+  state: {},
   modules: {
     auth: moduleSign
   }

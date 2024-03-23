@@ -38,10 +38,10 @@ Vue.use(ToastPlugin)
 export default {
     data() {
         return {
-            cred : { email: "", password: "" },
-            // auth_service: AuthService : new AuthService()
+            cred: { email: "", password: "" },
         }
     },
+    inject: ['redToast', 'yellowToast', 'greenToast'],
     methods: {
         async submitForm() {
             console.log(process.env.VUE_APP_API, this.cred)
@@ -55,25 +55,22 @@ export default {
             })
                 .then((response) => {
                     this.$store.commit('login', response.data)
-                        if (this.$store.state.auth.user_type == "ADMIN") {
-                            router.push({ name: 'admin', })
-                        } else if (this.$store.getters.is_logged_in) {
-                            router.push({ name: 'home', })
-                        }
+                    if (this.$store.state.auth.user_type == "ADMIN") {
+                        router.push({ name: 'admin', })
+                    } else if (this.$store.getters.is_logged_in) {
+                        router.push({ name: 'home', })
+                    }
                 })
-                .catch((error) => { 
-                    console.log(error); 
-                    const err = error.response.data.message
-                    console.log(err)
-                    this.$root.$bvToast.toast(err, {
-                        title: 'Error',
-                        autoHideDelay: 5000,
-                        variant: "danger",
-                        solid: true
-                    })
+                .catch((error) => {
+                    console.log(error);
+                    if (error.response && error.response.data) {
+                        const err = error.response.data.message
+                        this.redToast(err, 'Error')
+
+                    }
                 });
         },
-        
+
     }
 }
 </script>@/index

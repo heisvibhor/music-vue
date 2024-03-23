@@ -8,8 +8,7 @@
                 <div class="col-sm-4 border border-dark rounded py-2">
                     <div class="form-group mb-2">
                         <label for="Title" class="ml-2 m-1 float-left">Song Title</label>
-                        <input  id="Title" class="form-control" placeholder="Enter Title"
-                            v-model="song.title">
+                        <input id="Title" class="form-control" placeholder="Enter Title" v-model="song.title">
                     </div>
 
                     <div class="form-group mb-2">
@@ -22,7 +21,7 @@
                         <label for="image" class="ml-2 m-1 text-left d-block">Cover Image</label>
                         <img v-if="image" :src="imageUrl" height="170" width="170px" class="float-left d-block ml-2 m-1"
                             style="object-fit: cover;">
-                        <input type="file" @change="updatePhoto($event.target)" id="image" placeholder="Audio"
+                        <input type="file" @change="updatePhoto($event.target)" id="image" placeholder="Cover Image"
                             accept="image/*">
                     </div>
                     <div class="form-group">
@@ -30,7 +29,7 @@
                         <audio controls v-if="audio" style="width: 300px;">
                             <source :src="audioUrl">
                         </audio>
-                        <input type="file" @change="updateAudio($event.target)" id="image" placeholder="Cover Image"
+                        <input type="file" @change="updateAudio($event.target)" id="image" placeholder="Audio" 
                             accept="audio/*">
                     </div>
                     <div class="form-group mb-2">
@@ -52,7 +51,8 @@
                     <br>
                     <button type="submit" class="btn btn-primary" v-on:click="save()"
                         :disabled="!song.title || !song.genre || !song.language || !(song.lyrics || song.audio)">Save</button>
-                    <button v-if="id" type="submit" class="ml-2 btn btn-danger" v-on:click="deleteSong()">Delete</button>
+                    <button v-if="id" type="submit" class="ml-2 btn btn-danger"
+                        v-on:click="deleteSong()">Delete</button>
                 </div>
 
                 <div class="col-sm-4 border border-dark rounded px-1 py-2">
@@ -75,6 +75,7 @@
 import router from '@/router'
 export default {
     name: 'Song',
+    inject: ['get', 'mutate', 'redToast', 'yellowToast', 'greenToast'],
     data() {
         return {
 
@@ -92,11 +93,11 @@ export default {
             this.id = this.$route.params.id
             this.fetch()
         }
-        const lan = this.$api.get(this.$root, "/language")
+        const lan = this.get("/language")
         lan.then((r) => {
             this.languages = r.languages
         })
-        const gen = this.$api.get(this.$root, "/genre")
+        const gen = this.get("/genre")
         gen.then((r) => {
             this.genres = r.genres
         })
@@ -132,7 +133,7 @@ export default {
         },
 
         fetch() {
-            const res = this.$api.get(this.$root, "/song", { song_id: this.id })
+            const res = this.get("/song", { song_id: this.id })
             res.then((r) => {
                 this.song = r.song
                 this.image = r.song.image
@@ -144,7 +145,7 @@ export default {
         save() {
             console.log(this.song)
             if (this.id) {
-                this.$api.mutate(this.$root, 'put', '/song/' + this.id, this.song).then(
+                this.mutate('put', '/song/' + this.id, this.song).then(
                     (r) => {
                         this.song = r.song
                         this.image = r.song.image
@@ -154,7 +155,7 @@ export default {
                     }
                 )
             } else {
-                this.$api.mutate(this.$root, 'post', '/song', this.song).then(
+                this.mutate('post', '/song', this.song).then(
                     (r) => {
                         this.song = r.song
                         this.image = r.song.image
@@ -169,7 +170,7 @@ export default {
         deleteSong() {
             let text = "Are You Sure you want to delete";
             if (confirm(text) == true) {
-                this.$api.mutate(this.$root, 'delete', '/song/' + this.id, {}).then(
+                this.mutate('delete', '/song/' + this.id, {}).then(
                     (r) => {
                         router.push({ name: 'CreatorHome' })
                     }

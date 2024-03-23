@@ -55,7 +55,7 @@
 <script>
 export default {
     name: 'Listen',
-
+    inject: ['get', 'mutate', 'redToast', 'yellowToast', 'greenToast'],
     props: {
         id: undefined,
     },
@@ -86,27 +86,26 @@ export default {
     },
     methods: {
         updateRating() {
-            console.log(this.songlike.rating)
-            this.$api.mutate(this.$root, 'put', `/like_rate/${this.id}`, this.songlike).then(
+            this.mutate('put', `/like_rate/${this.id}`, this.songlike).then(
                 (r) => {
                     this.songlike = r.songlike
                 }
             )
         },
         fetch() {
-            const res = this.$api.get(this.$root, "/song", { song_id: this.id })
+            const res = this.get("/song", { song_id: this.id })
             res.then((r) => {
                 this.song = r.song
                 setTimeout(this.addView, 60000)
                 // after one minute
             })
-            const r1 = this.$api.get(this.$root, `/like_rate/${this.id}`)
+            const r1 = this.get(`/like_rate/${this.id}`)
             r1.then((r) => {
                 this.songlike = r.songlike
             })
         },
         addView() {
-            const res = this.$api.get(this.$root, `/view/${this.id}`)
+            const res = this.get(`/view/${this.id}`)
         }
     },
     watch: {

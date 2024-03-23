@@ -65,11 +65,9 @@
 </template>
 
 <script>
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import router from "@/router";
 import Vue from 'vue'
-import { ToastPlugin } from 'bootstrap-vue'
-Vue.use(ToastPlugin)
 axios.defaults.baseURL = process.env.VUE_APP_API
 
 export default {
@@ -80,6 +78,7 @@ export default {
             languages: [],
         }
     },
+    
     mounted() {
         axios('/language' , {
             method: 'get',
@@ -96,6 +95,7 @@ export default {
             }
         });
     },
+    inject: ['redToast', 'yellowToast', 'greenToast'],
     methods: {
         updatePhoto(files) {
             if (!files) return;
@@ -132,28 +132,12 @@ export default {
                     this.tab = 'second'
                 }
                 else {
-                    this.dangerToast(response.data.message, 'Error')
+                    this.redToast(response.data.message, 'Error')
                 }
 
             }).catch((error) => {
-                this.dangerToast(error.response.data.message, 'Error')
+                this.redToast(error.response.data.message, 'Error')
             });
-        },
-        dangerToast(message, title) {
-            this.$root.$bvToast.toast(message, {
-                title: title,
-                autoHideDelay: 5000,
-                variant: "danger",
-                solid: true
-            })
-        },
-        greenToast(message, title) {
-            this.$root.$bvToast.toast(message, {
-                title: title,
-                autoHideDelay: 5000,
-                variant: "success",
-                solid: true
-            })
         },
     }
 }
