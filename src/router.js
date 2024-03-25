@@ -11,6 +11,7 @@ import Creator from './creator/Creator.vue'
 import CreatorHome from './creator/Home.vue'
 import Playlist from './user/Playlist.vue'
 import Listen from './user/Listen.vue'
+import Admin from './admin/Admin.vue'
 
 Vue.use(VueRouter)
 
@@ -61,6 +62,10 @@ const routes = [
         path: 'creatorprofile/:type', component: () =>
           import("./user/Creator.vue"), name: "creatorProfile"
       },
+      {
+        path: 'songsearch', component: () =>
+          import("./user/SongSearch.vue"), name: "userSongSearch"
+      },
     ],
   },
   {
@@ -74,6 +79,26 @@ const routes = [
       {
         path: 'album/:id', component: () =>
           import("./creator/Album.vue"), name: "albumEdit"
+      },
+    ],
+  },
+  {
+    path: "/admin/",
+    name: "admin",
+    component: Admin,
+    beforeEnter: checkLogin,
+    children: [
+      {
+        path: 'album/:id', component: () =>
+          import("./admin/AlbumSearch.vue"), name: "adminAlbumSearch"
+      },
+      {
+        path: 'creator', component: () =>
+          import("./admin/CreatorSearch.vue"), name: "creatorSearch"
+      },
+      {
+        path: 'songsearch', component: () =>
+          import("./admin/SongSearch.vue"), name: "adminSongSearch"
       },
     ],
   },

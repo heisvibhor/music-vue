@@ -125,7 +125,7 @@
                 </table>
                 <div style="height:90vh; overflow-y: auto">
                     <div v-for="mc in songs">
-                        <MusicMedium :song="mc" :add-function="addSong.bind({}, mc.song.id, mc.song)"></MusicMedium>
+                        <MusicMedium :song="mc" :button-function="addSong.bind({}, mc.song.id, mc.song)"></MusicMedium>
                     </div>
                 </div>
             </div>

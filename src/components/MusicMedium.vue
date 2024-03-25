@@ -3,21 +3,23 @@
         <table class="w-100">
             <tr>
                 <td style="width:25%">
-                    <img :src="imagePath" height="80px" width="80px" style="object-fit: cover;">
+                    <a :href="'/listen/' + song.song.id" target="_blank">
+                        <img :src="imagePath" height="80px" width="80px" style="object-fit: cover;">
+                    </a>
                 </td>
                 <td class="p-1" style="height:1px">
-                    <div class="h-50 text-left">
-                        {{ song.song.title }}
-                    </div>
+                        <div @click="route()" class="h-50 text-left">
+                            {{ song.song.title }}
+                        </div>
                     <div class="h-50 text-left">
                         <img :src="creatorPath" height="25px" width="25px"
                             style="object-fit: cover; border-radius: 25px;">
                         <span>{{ song.song.creator.artist }}</span>
                     </div>
                 </td>
-                <td style="width:15%">
-                    <div @click="addFunction()">
-                        <b-avatar icon="plus" variant="primary"></b-avatar>
+                <td style="width:15%" v-if="buttonFunction">
+                    <div @click="buttonFunction()">
+                        <b-avatar :icon="buttonIcon" :variant="buttonVariant" size="2.1rem"></b-avatar>
                     </div>
                 </td>
             </tr>
@@ -43,7 +45,18 @@ export default {
 
     props: {
         song: {},
-        addFunction: null
+        buttonFunction: null,
+        buttonIcon: {
+            default: "plus",
+        },
+        buttonVariant: {
+            default: "info"
+        }
+    },
+    data() {
+        return {
+
+        }
     },
     computed: {
         imagePath() {
@@ -53,6 +66,11 @@ export default {
             return process.env.VUE_APP_API + '/image/' + this.song.song.creator.image
         }
     },
+    methods: {
+        route(){
+            window.open('/listen/' + this.song.song.id, '_blank')
+        }
+    }
 }
 
 

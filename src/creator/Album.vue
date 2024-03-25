@@ -66,7 +66,7 @@
                 </table>
                 <div style="height:90vh; overflow-y: auto">
                     <div v-for="mc in songs">
-                        <MusicMedium :song="mc" :add-function="addSong.bind({}, mc.song.id, mc.song)"></MusicMedium>
+                        <MusicMedium :song="mc" :buttonFunction="addSong.bind({}, mc.song.id, mc.song)"></MusicMedium>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@ import MusicMedium from '@/components/MusicMedium.vue'
 import Listen from '@/components/Listen.vue'
 
 export default {
-    name: 'Song',
+    name: 'Album',
     components: {
         MusicSmall,
         MusicMedium,
@@ -125,7 +125,7 @@ export default {
             songs: [],
         }
     },
-    async mounted() {
+    mounted() {
         if (this.$route.params.id && this.$route.params.id != "new") {
             this.id = this.$route.params.id
             this.fetch()
