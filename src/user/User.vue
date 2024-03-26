@@ -11,19 +11,20 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
-            <b-nav-item><router-link to="creator">Creator</router-link></b-nav-item>
+            <b-nav-item v-if="userType == 'USER'"><router-link to="/creatorprofile/new">Creator</router-link></b-nav-item>
+            <!-- <b-nav-item v-if="userType == 'CREATOR'"><router-link to="/creatorprofile/edit">Creator</router-link></b-nav-item> -->
+            <b-nav-item v-if="userType == 'CREATOR'"><router-link to="/creator">Creator</router-link></b-nav-item>
             <b-nav-item-dropdown text="Search" right>
-              <b-dropdown-item>Album</b-dropdown-item>
-              <b-dropdown-item>Song</b-dropdown-item>
-              
+              <b-dropdown-item><router-link to="/albumSearch">Album</router-link></b-dropdown-item>
+              <b-dropdown-item><router-link to="/songsearch">Song</router-link></b-dropdown-item>
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown right>
               <template #button-content>
                 User
               </template>
-              <b-dropdown-item><router-link to="profile"><span>Profile</span></router-link></b-dropdown-item>
-              <b-dropdown-item><router-link to="creator">Logout</router-link></b-dropdown-item>
+              <b-dropdown-item><router-link :to="{name: 'profile'}">Profile</router-link></b-dropdown-item>
+              <b-dropdown-item><router-link to="/logout">Logout</router-link></b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -35,6 +36,11 @@
 <script>
 
 export default {
-  name: 'HomeView',
+  name: 'UserRoutes',
+  data() {
+    return {
+      userType : this.$store.state.auth.user_type
+    }
+  },
 }
-</script>w
+</script>

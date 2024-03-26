@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 border py-2">
                 <div class="form-group mb-2">
                     <label for="aTitle" class="ml-2 m-1 float-left">Album Title</label>
                     <input id="aTitle" class="form-control" placeholder="Enter Title" v-model="album.title">

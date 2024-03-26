@@ -29,7 +29,7 @@
                         <th></th>
                     </tr>
                     <tr v-for="(creator, index) in creators">
-                        <td><img v-if="creator.image" :src="imageUrl(creator.image)" height="50px" width="50px"
+                        <td style="width:55px"><img v-if="creator.image" :src="imageUrl(creator.image)" height="50px" width="50px"
                                 class="float-left d-block ml-2 m-1" style="object-fit: cover;"></td>
                         <td>{{ creator.artist }}</td>
                         <td>{{ creator.created_at.slice(0, 10) }}</td>

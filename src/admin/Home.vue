@@ -1,6 +1,6 @@
 <template>
     <div>
-        Creator Home
+        Admin Home
     </div>
 </template>
 <script>

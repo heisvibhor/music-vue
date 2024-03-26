@@ -39,8 +39,8 @@
                     </tr>
                 </table>
                 <div style="height:90vh; overflow-y: auto">
-                    <div v-for="mc in songs">
-                        <MusicMedium :song="mc" :button-function="deleteSong.bind({}, mc.song.id, mc.song)"
+                    <div v-for="(mc, index) in songs">
+                        <MusicMedium :song="mc" :button-function="deleteSong.bind({}, mc.song.id, index)"
                             buttonIcon="trash" buttonVariant="danger">
                         </MusicMedium>
                     </div>
@@ -54,6 +54,7 @@
     </div>
 </template>
 <script>
+import MusicMedium from '@/components/MusicMedium.vue'
 export default {
     data() {
         return {
@@ -95,11 +96,11 @@ export default {
                 }
             )
         },
-        deleteSong() {
+        deleteSong(song_id, index) {
             let text = "Are You Sure you want to delete";
             if (confirm(text) == true) {
-                this.mutate('delete', '/song/' + this.id, {}).then(
-                    (r) => { }
+                this.mutate('delete', '/song/' + song_id, {}).then(
+                    (r) => { this.songs.splice(index, 1) }
                 )
             }
         }

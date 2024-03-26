@@ -19,7 +19,7 @@ const checkLogin = (to, from, next) => {
   if (store.getters.is_logged_in) {
     next()
   } else {
-    next({ name: 'home' })
+    next({ name: 'login' })
   }
 }
 
@@ -35,6 +35,14 @@ const routes = [
     component: Login,
   },
   {
+    path: "/logout",
+    name: "logout",
+    beforeEnter: (to, from, next) => {
+      store.commit('logout')
+      next({ name: 'login' })
+    }
+  },
+  {
     path: "/about",
     name: "about",
     beforeEnter: checkLogin,
@@ -43,11 +51,11 @@ const routes = [
   },
   {
     path: "/",
-    name: "user",
     component: User,
     beforeEnter: checkLogin,
     children: [
-      { path: 'home', component: HomePage },
+      { path: '', redirect: 'home', name: "user",},
+      { path: 'home', component: HomePage, name: 'home' },
       { path: 'playlist/:id', component: Playlist, name: 'playlist' },
       { path: 'listen/:id', component: Listen, name: "listen" },
       {
@@ -66,14 +74,18 @@ const routes = [
         path: 'songsearch', component: () =>
           import("./user/SongSearch.vue"), name: "userSongSearch"
       },
+      {
+        path: 'albumSearch', component: () =>
+          import("./user/AlbumSearch.vue"), name: "userAlbumSearch"
+      },
     ],
   },
   {
     path: "/creator/",
-    name: "creator",
     component: Creator,
     beforeEnter: checkLogin,
     children: [
+      { path: '', redirect: 'home', name: "creator",},
       { path: 'home', component: CreatorHome, name: "CreatorHome" },
       { path: 'song/:id', component: Song, name: "song" },
       {
@@ -84,21 +96,33 @@ const routes = [
   },
   {
     path: "/admin/",
-    name: "admin",
     component: Admin,
     beforeEnter: checkLogin,
     children: [
+      { path: '', redirect: 'home', name: "admin",},
       {
-        path: 'album/:id', component: () =>
+        path: 'albumSearch', component: () =>
           import("./admin/AlbumSearch.vue"), name: "adminAlbumSearch"
       },
       {
-        path: 'creator', component: () =>
+        path: 'creatorSearch', component: () =>
           import("./admin/CreatorSearch.vue"), name: "creatorSearch"
       },
       {
         path: 'songsearch', component: () =>
           import("./admin/SongSearch.vue"), name: "adminSongSearch"
+      },
+      {
+        path: 'genre', component: () =>
+          import("./admin/Genre.vue"), name: "genre"
+      },
+      {
+        path: 'language', component: () =>
+          import("./admin/Language.vue"), name: "language"
+      },
+      {
+        path: 'home', component: () =>
+          import("./admin/Home.vue"), name: "adminHome"
       },
     ],
   },

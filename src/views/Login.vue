@@ -73,4 +73,4 @@ export default {
 
     }
 }
-</script>@/index
+</script>

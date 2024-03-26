@@ -53,6 +53,7 @@
     </div>
 </template>
 <script>
+import MusicMedium from '@/components/MusicMedium.vue'
 export default {
     data() {
         return {
