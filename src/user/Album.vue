@@ -47,7 +47,7 @@
             <div class="col-sm-8">
                 <Listen v-if="current_song_id" :id="current_song_id"></Listen>
                 <span v-if="!album_songs.length">
-                    OOPS Know Song in this album please wait
+                    OOPS No Song in this album please wait
                 </span>
             </div>
         </div>
