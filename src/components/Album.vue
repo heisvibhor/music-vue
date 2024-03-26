@@ -1,30 +1,27 @@
 <template>
     <div class="container border border-1 pt-1">
         <div class="m-auto" v-on:click="route">
-            <img :src="imagePath" style="width: 160px; height: 160px; object-fit: contain;">
+            <img :src="imagePath" style="width: 160px; height: 160px; object-fit: cover;">
         </div>
         <div class="">
-            <div style="word-wrap: break-word;">
-                <b-badge variant="success" class="mr-1" v-if="album.songs">{{ album.songs.length }} Songs</b-badge> {{
-            album.description }}
+            <h5 class="text-left mt-1">{{ album.title }}</h5>
+            <table class="mb-2">
+                <tr>
+                    <td>
+                        <img :src="creatorPath" height="30px" width="30px"
+                            style="object-fit: cover; border-radius: 30px;">
+                    </td>
+                    <td class="px-1">
+                        {{ album.creator.artist }}
+                    </td>
+                </tr>
+            </table>
+            <div class="text-left" style="word-wrap: break-word;">
+                {{ album.description }}
             </div>
-            <div class="mt-3" style="width: 200px;">
-                <table class="mb-2">
-                    <tr>
-                        <td>
-                            <img :src="creatorPath" height="30px" width="30px"
-                                style="object-fit: cover; border-radius: 30px;">
-                        </td>
-                        <td class="px-1">
-                            {{ album.creator.artist }}
-                        </td>
-                        <td colspan="2"></td>
-                    </tr>
-
-                </table>
-                <h5>{{ album.title }}</h5>
-            </div>
-
+            <div class="text-left mb-1">
+                <b-badge variant="success" class="mr-1" v-if="album.songs">{{ album.songs.length }} Songs</b-badge>
+                </div>
         </div>
     </div>
 </template>

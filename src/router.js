@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from './views/HomeView.vue'
 import Login from './views/Login.vue'
 import Signup from './views/Signup.vue'
 import store from './store'
@@ -41,13 +40,6 @@ const routes = [
       store.commit('logout')
       next({ name: 'login' })
     }
-  },
-  {
-    path: "/about",
-    name: "about",
-    beforeEnter: checkLogin,
-    component: () =>
-      import("./views/AboutView.vue"),
   },
   {
     path: "/",

@@ -1,7 +1,7 @@
 <template>
     <div class="container border border-1 pt-1">
         <div class="m-auto" v-on:click="push">
-            <img :src="imagePath" style="width: 160px; height: 160px; object-fit: contain;">
+            <img :src="imagePath" style="width: 160px; height: 160px; object-fit: cover;">
         </div>
         <div class="">
             <b-badge variant="warning" class="ml-1">{{ song.song.genre }}</b-badge>
@@ -23,7 +23,7 @@
                     </tr>
 
                 </table>
-                <h5>{{ song.song.title }}</h5>
+                <h5 class="text-left">{{ song.song.title }}</h5>
             </div>
 
         </div>
