@@ -103,7 +103,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <input class="form-control" placeholder="Enter Title Name" v-model="song_search.description">
+                        <input class="form-control" placeholder="Enter Title Name" v-model="song_search.title">
                         <td>
                             <select class="form-select form-control" v-model="song_search.language">
                                 <option v-for="lang in languages" :value="lang.name">

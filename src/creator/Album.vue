@@ -44,7 +44,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <input class="form-control" placeholder="Enter Title Name" v-model="song_search.description">
+                        <input class="form-control" placeholder="Enter Title Name" v-model="song_search.title">
                         <td>
                             <select class="form-select form-control" v-model="song_search.language">
                                 <option v-for="lang in languages" :value="lang.name">
@@ -160,12 +160,18 @@ export default {
             })
         },
         addSong(song_id, song) {
-            this.mutate('post', `/album/${this.id}/${song_id}`, {})
-            this.album_songs.push(song)
+            this.mutate('post', `/album/${this.id}/${song_id}`, {}).then(
+                (r) => {
+                    this.album_songs.push(song)
+                }
+            )
         },
         deleteSong(song_id, index) {
-            this.mutate('delete', `/album/${this.id}/${song_id}`, {})
-            this.album_songs.splice(index, 1)
+            this.mutate('delete', `/album/${this.id}/${song_id}`, {}).then(
+                (r) => {
+                    this.album_songs.splice(index, 1)
+                }
+            )
         },
         searchSong() {
             if (this.song_search.language == 'All') {

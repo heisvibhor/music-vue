@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import router from '@/router'
 export default {
     inject: ['get', 'mutate', 'redToast', 'yellowToast', 'greenToast'],
     data() {
@@ -82,6 +83,10 @@ export default {
             this.type = this.$route.params.type
         }
         if (this.type == 'edit') {
+            if (this.$store.state.auth.user_type == 'USER'){
+                this.$store.commit('logout')
+                router.push({ name: 'login'})
+            }
             const u = this.get("/creator")
             u.then((r) => {
                 this.creator = r.creator
@@ -113,6 +118,7 @@ export default {
                         this.image = r.creator.image
                         this.creator.image = null
                         this.type = 'edit'
+                        router.push({ name: 'creatorProfile', params: { type: 'edit' } })
                     }
                 )
             }

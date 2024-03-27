@@ -13,7 +13,7 @@
           <b-navbar-nav class="ml-auto">
             <b-nav-item v-if="userType == 'USER'"><router-link
                 to="/creatorprofile/new">Creator</router-link></b-nav-item>
-            <!-- <b-nav-item v-if="userType == 'CREATOR'"><router-link to="/creatorprofile/edit">Creator</router-link></b-nav-item> -->
+
             <b-nav-item v-if="userType == 'CREATOR'"><router-link to="/creator">Creator</router-link></b-nav-item>
             <b-nav-item-dropdown text="Search" right>
               <b-dropdown-item><router-link to="/albumSearch">Album</router-link></b-dropdown-item>

@@ -11,6 +11,7 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
+            <b-nav-item><router-link to="/creatorprofile/edit">Profile</router-link></b-nav-item>
             <b-nav-item><router-link to="/home">User Home</router-link></b-nav-item>
             <b-nav-item-dropdown text="New" right>
               <b-dropdown-item><router-link to="/creator/song/new">Song</router-link></b-dropdown-item>
@@ -21,7 +22,7 @@
               <template #button-content>
                 User
               </template>
-              <b-dropdown-item><router-link to="/creatorprofile/edit">Profile</router-link></b-dropdown-item>
+              <b-dropdown-item><router-link to="/profile">Profile</router-link></b-dropdown-item>
               <b-dropdown-item><router-link to="/logout">
                   <div class="font-weight-light">{{ email }}</div>Logout
                 </router-link></b-dropdown-item>
