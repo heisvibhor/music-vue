@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col">
                 <h4 class="text-left mt-2">Analytics</h4>
@@ -51,7 +51,7 @@
                     <h4 class="text-left mt-2">Songs</h4>
                     <div class="d-flex flex-row" style="overflow-x: scroll;">
                         <div v-for="mc in songs">
-                            <Music :song="mc"></Music>
+                            <Music :song="mc" edit="true"></Music>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <h4 class="text-left mt-2">Albums</h4>
                     <div class="d-flex flex-row" style="overflow-x: scroll;">
                         <div v-for="al in albums">
-                            <Album :album="al"></Album>
+                            <Album :album="al" edit="true"></Album>
                         </div>
                     </div>
                 </div>

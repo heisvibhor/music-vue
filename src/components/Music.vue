@@ -3,7 +3,7 @@
         <div class="m-auto" v-on:click="push">
             <img :src="imagePath" style="width: 160px; height: 160px; object-fit: cover;">
         </div>
-        <div class="">
+        <div>
             <b-badge variant="warning" class="ml-1">{{ song.song.genre }}</b-badge>
             <b-badge variant="info" class="ml-1">{{ song.song.language }}</b-badge>
             <b-badge variant="success" class="ml-1">{{ song.song.views }} Views</b-badge>
@@ -23,7 +23,11 @@
                     </tr>
 
                 </table>
-                <h5 class="text-left">{{ song.song.title }}</h5>
+                <router-link :to="'/creator/song/' + song.id">
+                    <b-avatar v-if="edit" class="float-right" icon="pencil" variant="primary" size="1.5rem"></b-avatar>
+                </router-link>
+                <h5 class="text-left" style="height: 50px;">{{ song.song.title }}</h5>
+               
             </div>
 
         </div>
@@ -36,6 +40,7 @@ export default {
     name: 'Music',
     props: {
         song: {},
+        edit: false,
     },
     computed: {
         imagePath() {

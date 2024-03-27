@@ -143,7 +143,6 @@ export default {
             })
         },
         save() {
-            console.log(this.song)
             if (this.id) {
                 this.mutate('put', '/song/' + this.id, this.song).then(
                     (r) => {
@@ -162,6 +161,7 @@ export default {
                         this.audio = r.song.audio
                         this.song.image = null
                         this.song.audio = null
+                        this.id = this.song.id
                         router.push({ name: 'song', params: { id: this.song.id } })
                     }
                 )

@@ -21,7 +21,10 @@
             </div>
             <div class="text-left mb-1">
                 <b-badge variant="success" class="mr-1" v-if="album.songs">{{ album.songs.length }} Songs</b-badge>
-                </div>
+                <router-link :to="'/creator/album/' + album.id">
+                    <b-avatar v-if="edit" class="float-right" icon="pencil" variant="primary" size="1.5rem"></b-avatar>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -31,6 +34,7 @@ export default {
     name: 'Album',
     props: {
         album: {},
+        edit: false
     },
     computed: {
         imagePath() {
