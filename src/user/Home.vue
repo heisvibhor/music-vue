@@ -82,7 +82,6 @@ export default {
   async mounted() {
     const res = this.get("/home")
     res.then((r) => {
-      console.log(r)
       this.albums = r.albums
       this.top_rated = r.top_rated
       this.top_views = r.top_views

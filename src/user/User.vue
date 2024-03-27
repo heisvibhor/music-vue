@@ -11,7 +11,8 @@
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
-            <b-nav-item v-if="userType == 'USER'"><router-link to="/creatorprofile/new">Creator</router-link></b-nav-item>
+            <b-nav-item v-if="userType == 'USER'"><router-link
+                to="/creatorprofile/new">Creator</router-link></b-nav-item>
             <!-- <b-nav-item v-if="userType == 'CREATOR'"><router-link to="/creatorprofile/edit">Creator</router-link></b-nav-item> -->
             <b-nav-item v-if="userType == 'CREATOR'"><router-link to="/creator">Creator</router-link></b-nav-item>
             <b-nav-item-dropdown text="Search" right>
@@ -23,8 +24,10 @@
               <template #button-content>
                 User
               </template>
-              <b-dropdown-item><router-link :to="{name: 'profile'}">Profile</router-link></b-dropdown-item>
-              <b-dropdown-item><router-link to="/logout">Logout</router-link></b-dropdown-item>
+              <b-dropdown-item><router-link :to="{ name: 'profile' }">Profile</router-link></b-dropdown-item>
+              <b-dropdown-item><router-link to="/logout">
+                  <div class="font-weight-light">{{ email }}</div>Logout
+                </router-link></b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -39,7 +42,8 @@ export default {
   name: 'UserRoutes',
   data() {
     return {
-      userType : this.$store.state.auth.user_type
+      userType: this.$store.state.auth.user_type,
+      email: this.$store.state.auth.email
     }
   },
 }

@@ -4,8 +4,9 @@
             <div class="row">
                 <div class="col-sm">
                 </div>
-                <div v-if="tab == 'first'">
-                    <div class="col-sm border border-dark rounded py-5">
+                <div v-if="tab == 'first'" class="col-sm-5 p-2">
+                    <div class="border border-dark rounded p-4">
+                        <h3>Sign Up</h3>
                         <div class="form-group">
                             <label for="exampleInputEmail1" class="text-left">Email address</label>
                             <input type="email" class="form-control" id="exampleInputEmail1"
@@ -31,12 +32,16 @@
                             </select>
                         </div>
                         <br>
+                        <div>
+                        Already Registered? <router-link to="login">Click Here</router-link> to login
+                    </div>
                         <button type="submit" class="btn btn-primary" v-on:click="getOtp()"
                             :disabled="!cred.email || !cred.name || !cred.language">Get OTP</button>
                     </div>
                 </div>
-                <div v-if="tab == 'second'">
-                    <div class="col-sm border border-dark rounded py-5">
+                <div v-if="tab == 'second'" class="col-sm-5 p-2">
+                    <div class="border border-dark rounded p-4">
+                        <h3>Sign Up</h3>
                         <div class="form-group">
                             <label for="exampleInputEmail1" class="text-left">Email address</label>
                             {{ cred.email }}

@@ -48,7 +48,7 @@
             </div>
             <div class="col-9">
                 <div v-if="songs.length">
-                    <h4 class="text-left mt-2">Top Viewed Songs</h4>
+                    <h4 class="text-left mt-2">Songs</h4>
                     <div class="d-flex flex-row" style="overflow-x: scroll;">
                         <div v-for="mc in songs">
                             <Music :song="mc"></Music>

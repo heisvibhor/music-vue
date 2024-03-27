@@ -6,6 +6,30 @@
         <div class="row row-cols-md-4 gap-1">
             <div class="border py-4 col">
                 <div style="font-size:larger">
+                    User Count
+                </div>
+                {{ analytics.user_count }}
+            </div>
+            <div class="border py-4 col">
+                <div style="font-size:larger">
+                    User Last Month
+                </div>
+                {{ analytics.user_last_month }}
+            </div>
+            <div class="border py-4 col">
+                <div style="font-size:larger">
+                    Creator Count
+                </div>
+                {{ analytics.creator_count }}
+            </div>
+            <div class="border py-4 col">
+                <div style="font-size:larger">
+                    Creators Last Month
+                </div>
+                {{ analytics.creator_last_month }}
+            </div>
+            <div class="border py-4 col">
+                <div style="font-size:larger">
                     Song Count
                 </div>
                 {{ analytics.song_count }}

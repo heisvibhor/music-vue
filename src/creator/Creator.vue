@@ -22,7 +22,9 @@
                 User
               </template>
               <b-dropdown-item><router-link to="/creatorprofile/edit">Profile</router-link></b-dropdown-item>
-              <b-dropdown-item><router-link to="/logout">Logout</router-link></b-dropdown-item>
+              <b-dropdown-item><router-link to="/logout">
+                  <div class="font-weight-light">{{ email }}</div>Logout
+                </router-link></b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -37,7 +39,8 @@ export default {
   name: 'CreatorRoutes',
   data() {
     return {
-      userType : this.$store.state.auth.user_type
+      userType: this.$store.state.auth.user_type,
+      email: this.$store.state.auth.email
     }
   },
 }

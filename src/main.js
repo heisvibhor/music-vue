@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
-import { MyPlugin } from './api'
 import { ToastPlugin } from 'bootstrap-vue'
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.css'
@@ -14,15 +13,9 @@ Vue.use(BootstrapVueIcons)
 Vue.use(ToastPlugin)
 
 Vue.config.productionTip = false
-Vue.use(MyPlugin, store)
 new Vue({
   router,
   store,
-  data() {
-    return {
-      x: 'asd'
-    }
-  },
   methods: {
     redToast(message, title) {
       this.$root.$bvToast.toast(message, {

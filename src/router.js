@@ -75,7 +75,13 @@ const routes = [
   {
     path: "/creator/",
     component: Creator,
-    beforeEnter: checkLogin,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.is_logged_in && store.state.auth.user_type == 'CREATOR') {
+        next()
+      } else {
+        next({ name: 'user' })
+      }
+    },
     children: [
       { path: '', redirect: 'home', name: "creator",},
       { path: 'home', component: CreatorHome, name: "CreatorHome" },
@@ -89,7 +95,13 @@ const routes = [
   {
     path: "/admin/",
     component: Admin,
-    beforeEnter: checkLogin,
+    beforeEnter: (to, from, next) => {
+      if (store.getters.is_logged_in && store.state.auth.user_type == 'ADMIN') {
+        next()
+      } else {
+        next({ name: 'user' })
+      }
+    },
     children: [
       { path: '', redirect: 'home', name: "admin",},
       {
