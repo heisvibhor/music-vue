@@ -23,7 +23,7 @@
                     </tr>
 
                 </table>
-                <router-link :to="'/creator/song/' + song.id">
+                <router-link :to="'/creator/song/' + song.song.id">
                     <b-avatar v-if="edit" class="float-right" icon="pencil" variant="primary" size="1.5rem"></b-avatar>
                 </router-link>
                 <h5 class="text-left" style="height: 50px;">{{ song.song.title }}</h5>
@@ -61,7 +61,7 @@ export default {
             if (!val){
                 return 0
             } 
-            return val
+            return  parseFloat(val).toFixed(2) 
         }
     }
 }

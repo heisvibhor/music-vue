@@ -37,7 +37,7 @@
                     <div style="font-size:larger">
                         Average Rating
                     </div>
-                    {{ analytics.average_rating }}
+                    {{ analytics.average_rating? parseFloat(analytics.average_rating).toFixed(2) : 0 }}
                 </div>
                 <div class="border my-2">
                     <div style="font-size:larger">
