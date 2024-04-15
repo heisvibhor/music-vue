@@ -25,9 +25,9 @@ https://drive.google.com/file/d/1e9ijzaoeh0FrYUm5xVkzOZ8kWig98Taw/view?usp=shari
 ### Backend
 https://github.com/heisvibhor/flask-song
 
-At the top level resides router, main, app, store that are main files serving the application.
-Then each directory for admin, user and creator for their respective functionalities.
-Components contain reusable components like music, album and listen.
+#At the top level resides router, main, app, store that are main files serving the application.
+#Then each directory for admin, user and creator for their respective functionalities.
+#Components contain reusable components like music, album and listen.
 
 
 ### Technologies Used
