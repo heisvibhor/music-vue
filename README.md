@@ -25,30 +25,46 @@ https://drive.google.com/file/d/1e9ijzaoeh0FrYUm5xVkzOZ8kWig98Taw/view?usp=shari
 ### Backend
 https://github.com/heisvibhor/flask-song
 
-#At the top level resides router, main, app, store that are main files serving the application.
-#Then each directory for admin, user and creator for their respective functionalities.
-#Components contain reusable components like music, album and listen.
+At the top level resides router, main, app, store that are main files serving the application.
+
+Then each directory for admin, user and creator for their respective functionalities.
+
+Components contain reusable components like music, album and listen.
 
 
 ### Technologies Used
 
 Flask and Flask-RESTful for backend API
+
 Vue-CLI for frontend development
+
 Bootstrap and Bootstrap-Vue CSS
+
 Flask-JWT for authentication
+
 Vue-router, VueX for routing and state management
+
 Celery and Redis for batch jobs
+
 Python SMTP to send mails
+
 Flask-Caching and Redis for caching
+
 Pandas and Matplotlib to generate graphs
+
 SQLalchemy as database engine
+
 SQLite as database
 
 ### .env at the top
 JWT_SECRET_KEY
+
 EMAIL
+
 PASSWORD
+
 DOMAIN
+
 SECRET_KEY
 
 
