@@ -65,7 +65,7 @@
                     <div class="d-flex flex-row" style="overflow-x: scroll;">
                         <div v-for="al in albums">
                             <Album :album="al" edit="true"></Album>
-                        </div>
+x                        </div>
                     </div>
                 </div>
                 <div v-else>
